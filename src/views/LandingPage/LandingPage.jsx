@@ -20,6 +20,14 @@ import landingPageStyle from "assets/jss/material-kit-react/views/landingPage.js
 // Sections for this page
 import ProductSection from "./Sections/ProductSection.jsx";
 
+// Logo components
+
+//custom style
+import  "assets/scss/custom-style/logo-style.scss";
+
+//logo
+import logo from "assets/img/logo.png"
+
 
 
 const dashboardRoutes = [];
@@ -51,6 +59,12 @@ class LandingPage extends React.Component {
                 BerryFace is a web interface to visualize data from a raspberry pi. You can see the current temperature and humidity of my apartment when you sign in. Right now, anyone can sign in via the login page.
                 </h4>
                 <br />
+              </GridItem>
+              <GridItem id="banner__GridItem_stage" xs={12} sm={12} md={6}>
+                <img
+                  id="banner__img_logo"
+                  src={logo}
+                />
               </GridItem>
             </GridContainer>
           </div>

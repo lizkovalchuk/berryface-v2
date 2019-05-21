@@ -10,12 +10,9 @@ const parallaxStyle = {
     padding: "0",
     border: "0",
     display: "flex",
-    alignItems: "center"
+    alignItems: "center",
   },
   filter: {
-    "&:before": {
-      background: "rgba(0, 0, 0, 0.5)"
-    },
     "&:after,&:before": {
       position: "absolute",
       zIndex: "1",

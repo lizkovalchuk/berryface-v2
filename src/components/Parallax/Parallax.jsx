@@ -9,6 +9,14 @@ import withStyles from "@material-ui/core/styles/withStyles";
 // core components
 import parallaxStyle from "assets/jss/material-kit-react/components/parallaxStyle.jsx";
 
+// //custom components
+// import logoStyle from "assets/jss/material-kit-react/views/landingPageSections/logoStyle.jsx";
+
+// //logo
+// import logo from "assets/img/logo.png"
+
+
+
 class Parallax extends React.Component {
   constructor(props) {
     super(props);
@@ -41,7 +49,7 @@ class Parallax extends React.Component {
       className,
       children,
       style,
-      image,
+      // image,
       small
     } = this.props;
     const parallaxClasses = classNames({
@@ -55,12 +63,17 @@ class Parallax extends React.Component {
         className={parallaxClasses}
         style={{
           ...style,
-          backgroundImage: "url(" + image + ")",
+          backgroundImage: "linear-gradient(160deg, #A82A7E 40%, #0075BE)",
           ...this.state
         }}
         ref="parallax"
       >
         {children}
+        {/* <div>
+          <img
+            src={logo}
+          />
+        </div> */}
       </div>
     );
   }
