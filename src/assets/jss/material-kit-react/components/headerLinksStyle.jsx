@@ -23,6 +23,7 @@ const headerLinksStyle = theme => ({
     padding: "0",
     [theme.breakpoints.down("sm")]: {
       width: "100%",
+      color: "black",
       "&:after": {
         width: "calc(100% - 30px)",
         content: '""',

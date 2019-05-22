@@ -3,7 +3,6 @@ import React from "react";
 // react components for routing our app without refresh
 import { Link } from "react-router-dom";
 
-import ProfilePage from "views/ProfilePage/ProfilePage.jsx";
 import LoginPage from "views/LoginPage/LoginPage.jsx";
 
 // @material-ui/core components

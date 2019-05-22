@@ -29,52 +29,72 @@ import LiquidGauge from "components/LiquidGauge/LiquidGauge.jsx";
 
 import profilePageStyle from "assets/jss/material-kit-react/views/profilePage.jsx";
 
+//custom style
+import "assets/scss/custom-style/profile-page.scss";
+
 class ProfilePage extends React.Component {
   render() {
     const data = [
       {
-        name: "Page A",
-        uv: 4000,
-        pv: 2400,
+        name: "20 April 2019",
+        time: "21:30:29",
+        temp: 15,
         amt: 2400
       },
       {
-        name: "Page B",
-        uv: 3000,
-        pv: 1398,
+        name: "20 April 2019",
+        time: "21:00:33",
+        temp: 15,
         amt: 2210
       },
       {
-        name: "Page C",
-        uv: 2000,
-        pv: 9800,
+        name: "20 April 2019",
+        time: "20:30:36",
+        temp: 16,
         amt: 2290
       },
       {
-        name: "Page D",
-        uv: 2780,
-        pv: 3908,
+        name: "20 April 2019",
+        time: "20:00:40",
+        temp: 14,
         amt: 2000
       },
       {
-        name: "Page E",
-        uv: 1890,
-        pv: 4800,
+        name: "20 April 2019",
+        time: "19:30:43",
+        temp: 15,
         amt: 2181
       },
       {
-        name: "Page F",
-        uv: 2390,
-        pv: 3800,
+        name: "20 April 2019",
+        time: "19:00:47",
+        temp: 16,
         amt: 2500
       },
       {
-        name: "Page G",
-        uv: 3490,
-        pv: 4300,
+        name: "20 April 2019",
+        time: "18:30:50",
+        temp: 18,
         amt: 2100
       }
     ];
+
+    function getIntroOfPage(label) {
+      console.log(label);
+    }
+
+
+    function CustomTooltip({ payload, label, active }) {
+      if (active) {
+        return (
+          <div className="custom-tooltip">
+            <p className="label">{`${label} : ${payload[0].value}`}</p>
+          </div>
+        );
+      }
+      return null;
+    }
+
 
     const { classes, ...rest } = this.props;
     const imageClasses = classNames(
@@ -87,7 +107,6 @@ class ProfilePage extends React.Component {
       <div>
         <Header
           color="transparent"
-          // brand="BerryFace"
           brand={
             <Link to="landing-page" style={{ color: "white" }}>
               BerryFace
@@ -113,7 +132,7 @@ class ProfilePage extends React.Component {
           {...rest}
         />
         {/* <Parallax small filter image={require("assets/img/profile-bg.jpg")} /> */}
-        <Parallax small filter />
+        <Parallax small filter style={{ height: "260px" }} />
         <div className={classNames(classes.main, classes.mainRaised)}>
           <div>
             <div className={classes.container}>
@@ -128,7 +147,10 @@ class ProfilePage extends React.Component {
                   </div>
                 </GridItem>
               </GridContainer>
-              <GridContainer justify="center">
+              <GridContainer
+                justify="center"
+                id="profile__GridContainer_chartWrappers"
+              >
                 <GridItem xs={12} sm={12} md={8} className={classes.navWrapper}>
                   <NavPills
                     alignCenter
@@ -138,13 +160,11 @@ class ProfilePage extends React.Component {
                         tabButton: "Temperature",
                         tabIcon: Sun,
                         tabContent: (
-                          <GridContainer justify="center">
-                            <GridItem
-                              xs={12}
-                              sm={12}
-                              md={4}
-                              style={{ height: "600px" }}
-                            >
+                          <GridContainer
+                            id="profile__GridContainer_temperature"
+                            justify="center"
+                          >
+                            <GridItem xs={12} sm={12} md={12}>
                               <LineChart
                                 width={600}
                                 height={300}
@@ -159,18 +179,14 @@ class ProfilePage extends React.Component {
                                 <XAxis dataKey="name" />
                                 <YAxis />
                                 <CartesianGrid strokeDasharray="3 3" />
-                                <Tooltip />
+                                {/* <Tooltip content={<CustomTooltip />} /> */}
+                                <Tooltip/>
                                 <Legend />
                                 <Line
                                   type="monotone"
-                                  dataKey="pv"
+                                  dataKey="temp"
                                   stroke="#8884d8"
                                   activeDot={{ r: 8 }}
-                                />
-                                <Line
-                                  type="monotone"
-                                  dataKey="uv"
-                                  stroke="#82ca9d"
                                 />
                               </LineChart>
                             </GridItem>
@@ -181,19 +197,19 @@ class ProfilePage extends React.Component {
                         tabButton: "Humidity",
                         tabIcon: Bubble,
                         tabContent: (
-                          <GridContainer justify="center">
-                            <GridItem
-                              xs={12}
-                              sm={12}
-                              md={4}
-                              style={{ height: "300px" }}
-                            >
-                              <LiquidGauge
-                                // value={this.props.humid}
-                                value="25"
-                                percent="%"
-                                textSize="1"
-                              />
+                          <GridContainer
+                            justify="center"
+                            id="profile__GridContainer_humidity"
+                          >
+                            <GridItem xs={12} sm={12} md={8}>
+                              <div id="profile__div_humidityContainer">
+                                <LiquidGauge
+                                  // value={this.props.humid}
+                                  value="25"
+                                  percent="%"
+                                  textSize="1"
+                                />
+                              </div>
                             </GridItem>
                           </GridContainer>
                         )

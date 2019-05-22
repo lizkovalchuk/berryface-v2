@@ -13,7 +13,7 @@ class LiquidGauge extends Component {
     render() {
         const radius = 150;
         // const interpolate = interpolateRgb(this.startColor, this.endColor);
-        const fillColor = '#6495ed';
+        const fillColor = '#a82a7e';
         const gradientStops = [
             {
                 key: '0%',
@@ -83,14 +83,11 @@ class LiquidGauge extends Component {
                         fill: color('#fff').toString(),
                         fontFamily: 'Arial'
                     }}
-                    // onClick={() => {
-                    //     this.setState({ value: Math.random() * 100 });
-                    // }}
                 />
                 <div
                     style={{
                         margin: '20px auto',
-                        width: 120,
+                        width: 300,
                     }}
                 >
                 </div>

@@ -23,7 +23,7 @@ import ProductSection from "./Sections/ProductSection.jsx";
 // Logo components
 
 //custom style
-import  "assets/scss/custom-style/logo-style.scss";
+import "assets/scss/custom-style/logo-style.scss";
 
 //logo
 import logo from "assets/img/logo.png"
