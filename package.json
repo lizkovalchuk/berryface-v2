@@ -4,10 +4,12 @@
   "description": "BerryFace, an interface for your raspberry pi",
   "private": true,
   "main": "dist/index.js",
+  "homepage": "https://lizkovalchuk.github.io/berryface-v2/",
   "dependencies": {
     "@material-ui/core": "3.9.2",
     "@material-ui/icons": "3.0.2",
     "classnames": "2.2.6",
+    "gh-pages": "^2.0.1",
     "history": "4.7.2",
     "moment": "2.24.0",
     "node-sass": "4.11.0",
@@ -34,8 +36,10 @@
     "eslint-plugin-prettier": "3.0.1"
   },
   "scripts": {
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
     "start": "react-scripts start",
-    "build": "npm run build-css && react-scripts build",
+    "build": "react-scripts build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "lint:check": "eslint . --ext=js,jsx;  exit 0",
