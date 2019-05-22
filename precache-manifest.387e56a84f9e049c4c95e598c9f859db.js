@@ -8,19 +8,19 @@ self.__precacheManifest = [
     "url": "/berryface-v2/static/js/runtime~main.0a72f797.js"
   },
   {
-    "revision": "aeb2b20e9ebc241e4809",
-    "url": "/berryface-v2/static/js/main.aeb2b20e.chunk.js"
+    "revision": "65b0252617a2a2d90680",
+    "url": "/berryface-v2/static/js/main.65b02526.chunk.js"
   },
   {
-    "revision": "5317e91be5f039e73f02",
-    "url": "/berryface-v2/static/js/2.5317e91b.chunk.js"
+    "revision": "0ca30b300714ed2cb375",
+    "url": "/berryface-v2/static/js/2.0ca30b30.chunk.js"
   },
   {
-    "revision": "aeb2b20e9ebc241e4809",
+    "revision": "65b0252617a2a2d90680",
     "url": "/berryface-v2/static/css/main.a35f1c8a.chunk.css"
   },
   {
-    "revision": "d790332ccc39a7fedf0fd4d2299ad865",
+    "revision": "ad894f651a95343a729861865ab9302a",
     "url": "/berryface-v2/index.html"
   }
 ];
