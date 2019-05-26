@@ -46,7 +46,7 @@ class ProfilePage extends React.Component {
 
   getData = async () => {
     const res = await axios.get(
-      "https://raspberrypi-2019.firebaseio.com/records.json"
+      'https://raspberrypi-2019.firebaseio.com/records.json?orderBy="timestamp"&limitToLast=10'
     );
     return res;
   };
@@ -55,69 +55,9 @@ class ProfilePage extends React.Component {
     // getData();
     console.log(this.state);
 
-    const data = [
-      {
-        name: "20 April 2019",
-        time: "21:30:29",
-        temp: 15,
-        amt: 2400
-      },
-      {
-        name: "20 April 2019",
-        time: "21:00:33",
-        temp: 15,
-        amt: 2210
-      },
-      {
-        name: "20 April 2019",
-        time: "20:30:36",
-        temp: 16,
-        amt: 2290
-      },
-      {
-        name: "20 April 2019",
-        time: "20:00:40",
-        temp: 14,
-        amt: 2000
-      },
-      {
-        name: "20 April 2019",
-        time: "19:30:43",
-        temp: 15,
-        amt: 2181
-      },
-      {
-        name: "20 April 2019",
-        time: "19:00:47",
-        temp: 16,
-        amt: 2500
-      },
-      {
-        name: "20 April 2019",
-        time: "18:30:50",
-        temp: 18,
-        amt: 2100
-      }
-    ];
-
-    function getIntroOfPage(label) {
-      console.log(label);
-    }
-
-    function CustomTooltip(props) {
-      //{ payload, label, active }) {
-      console.log(props);
-      const { payload, label, active } = props;
-      if (active) {
-        return (
-          <div className="custom-tooltip">
-            {/* <p className="label">hoooola{`${label} : ${payload[0].value}`}</p> */}
-            <Paper className="label">{`${payload[0].payload.time}`}</Paper>
-          </div>
-        );
-      }
-      return null;
-    }
+    // function getIntroOfPage(label) {
+    //   console.log(label);
+    // }
 
     const { classes, ...rest } = this.props;
     const imageClasses = classNames(
@@ -200,7 +140,7 @@ class ProfilePage extends React.Component {
                                   bottom: 5
                                 }}
                               >
-                                <XAxis dataKey="name" />
+                                <XAxis dataKey="timestamp" />
                                 <YAxis />
                                 <CartesianGrid strokeDasharray="3 3" />
                                 <Tooltip content={<CustomTooltip />} />
@@ -249,6 +189,24 @@ class ProfilePage extends React.Component {
       </div>
     );
   }
+}
+
+function CustomTooltip(props) {
+  const { payload: raw, active } = props;
+  const { timestamp } = raw.length ? raw[0].payload : {};
+  const newDate = new Date(timestamp);
+  const time = newDate.toTimeString().substring(0, 8);
+
+  console.log(time);
+
+  if (active) {
+    return (
+      <div className="custom-tooltip">
+        <Paper className="label">{`${time}`}</Paper>
+      </div>
+    );
+  }
+  return null;
 }
 
 export default withStyles(profilePageStyle)(ProfilePage);
