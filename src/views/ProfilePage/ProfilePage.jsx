@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import axios from "axios";
 import {
   LineChart,
   Line,
@@ -34,7 +35,26 @@ import profilePageStyle from "assets/jss/material-kit-react/views/profilePage.js
 import "assets/scss/custom-style/profile-page.scss";
 
 class ProfilePage extends React.Component {
+  state = {
+    data: []
+  };
+
+  componentDidMount = async () => {
+    const newState = Object.values((await this.getData()).data);
+    this.setState({ data: newState });
+  };
+
+  getData = async () => {
+    const res = await axios.get(
+      "https://raspberrypi-2019.firebaseio.com/records.json"
+    );
+    return res;
+  };
+
   render() {
+    // getData();
+    console.log(this.state);
+
     const data = [
       {
         name: "20 April 2019",
@@ -171,7 +191,8 @@ class ProfilePage extends React.Component {
                               <LineChart
                                 width={600}
                                 height={300}
-                                data={data}
+                                // data={data}
+                                data={this.state.data}
                                 margin={{
                                   top: 5,
                                   right: 30,
@@ -187,7 +208,7 @@ class ProfilePage extends React.Component {
                                 <Legend />
                                 <Line
                                   type="monotone"
-                                  dataKey="temp"
+                                  dataKey="temperature"
                                   stroke="#8884d8"
                                   activeDot={{ r: 8 }}
                                 />
