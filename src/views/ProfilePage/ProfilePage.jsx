@@ -14,6 +14,7 @@ import {
 import classNames from "classnames";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
+import Paper from "@material-ui/core/Paper";
 // @material-ui/icons
 import Sun from "@material-ui/icons/Brightness6";
 import Bubble from "@material-ui/icons/BubbleChart";
@@ -83,18 +84,20 @@ class ProfilePage extends React.Component {
       console.log(label);
     }
 
-
-    function CustomTooltip({ payload, label, active }) {
+    function CustomTooltip(props) {
+      //{ payload, label, active }) {
+      console.log(props);
+      const { payload, label, active } = props;
       if (active) {
         return (
           <div className="custom-tooltip">
-            <p className="label">{`${label} : ${payload[0].value}`}</p>
+            {/* <p className="label">hoooola{`${label} : ${payload[0].value}`}</p> */}
+            <Paper className="label">{`${payload[0].payload.time}`}</Paper>
           </div>
         );
       }
       return null;
     }
-
 
     const { classes, ...rest } = this.props;
     const imageClasses = classNames(
@@ -179,8 +182,8 @@ class ProfilePage extends React.Component {
                                 <XAxis dataKey="name" />
                                 <YAxis />
                                 <CartesianGrid strokeDasharray="3 3" />
-                                {/* <Tooltip content={<CustomTooltip />} /> */}
-                                <Tooltip/>
+                                <Tooltip content={<CustomTooltip />} />
+                                {/* <Tooltip /> */}
                                 <Legend />
                                 <Line
                                   type="monotone"
