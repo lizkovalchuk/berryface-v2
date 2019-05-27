@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/berryface-v2/precache-manifest.387e56a84f9e049c4c95e598c9f859db.js"
+  "/berryface-v2/precache-manifest.7cbdd147c563154d0f19bf4a862b6a1d.js"
 );
 
 workbox.clientsClaim();
