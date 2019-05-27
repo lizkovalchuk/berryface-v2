@@ -24,24 +24,35 @@ import Header from "components/Header/Header.jsx";
 import Footer from "components/Footer/Footer.jsx";
 import Button from "components/CustomButtons/Button.jsx";
 import GridContainer from "components/Grid/GridContainer.jsx";
-import GridItem from "components/Grid/GridItem.jsx";
-import NavPills from "components/NavPills/NavPills.jsx";
-import Parallax from "components/Parallax/Parallax.jsx";
-import LiquidGauge from "components/LiquidGauge/LiquidGauge.jsx";
+import GridItem from "components/Grid/GridItem";
+import NavPills from "components/NavPills/NavPills";
+import Parallax from "components/Parallax/Parallax";
+import LiquidGauge from "components/LiquidGauge/LiquidGauge";
 
-import profilePageStyle from "assets/jss/material-kit-react/views/profilePage.jsx";
+import profilePageStyle from "assets/jss/material-kit-react/views/profilePage";
 
 //custom style
 import "assets/scss/custom-style/profile-page.scss";
 
 class ProfilePage extends React.Component {
   state = {
-    data: []
+    data: [],
+    humidity: null
   };
 
   componentDidMount = async () => {
     const newState = Object.values((await this.getData()).data);
-    this.setState({ data: newState });
+    const formattedState = newState.map(record => {
+      const formattedDate = record.timestamp.substring(6, 10);
+      return {
+        formattedDate,
+        ...record
+      };
+    });
+    this.setState({
+      data: formattedState,
+      humidity: formattedState[0].humidity
+    });
   };
 
   getData = async () => {
@@ -140,7 +151,7 @@ class ProfilePage extends React.Component {
                                   bottom: 5
                                 }}
                               >
-                                <XAxis dataKey="timestamp" />
+                                <XAxis dataKey="formattedDate" />
                                 <YAxis />
                                 <CartesianGrid strokeDasharray="3 3" />
                                 <Tooltip content={<CustomTooltip />} />
@@ -169,7 +180,7 @@ class ProfilePage extends React.Component {
                               <div id="profile__div_humidityContainer">
                                 <LiquidGauge
                                   // value={this.props.humid}
-                                  value="25"
+                                  value={this.state.humidity}
                                   percent="%"
                                   textSize="1"
                                 />
