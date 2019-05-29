@@ -217,13 +217,30 @@ class ProfilePage extends React.Component {
   }
 }
 
+// Attempts
+// 1. Removed .lenght after Raw in the ternary first statement, though with this change, the page would not even open.
+// 2. I embedded the code inside CustomTooltip inside ComponentDidMount
+// 3. I embedded the entire CustomTooltip inside ComponentDidMount
+// 4. Noticed that there is no extraction of a variable called "raw" in ComponentWillMount which is why
+// .lenght on raw isn't working when destructruing props on line 222. Changed raw to formattedDate
+// 5. Realized Formatted Date isn't want I need, I need timestamp. changed lines 233 and 240 to timestamp and redifened timestamp
+// as timestamp2 on lines 241 and 243
+
 function CustomTooltip(props) {
-  const { payload: raw, active } = props;
+  //Original
+  //const { payload: raw, active } = props;
 
-  console.log(raw);
+  //Update
+  const { payload: timestamp, active } = props;
+  console.log(props);
 
-  const { timestamp } = raw.length ? raw[0].payload : {};
-  const newDate = new Date(timestamp);
+  //Original
+  //const { timestamp } = raw.length ? raw[0].payload : {};
+
+  //Update
+  const { timestamp2 } = timestamp.length ? timestamp[0].payload : {};
+
+  const newDate = new Date(timestamp2);
   const time = newDate.toTimeString().substring(0, 8);
 
   if (active) {
