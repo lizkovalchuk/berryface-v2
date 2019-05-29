@@ -40,7 +40,22 @@ class ProfilePage extends React.Component {
     humidity: null
   };
 
-  componentDidMount = async () => {
+  // componentDidMount = async () => {
+  //   const newState = Object.values((await this.getData()).data);
+  //   const formattedState = newState.map(record => {
+  //     const formattedDate = record.timestamp.substring(6, 10);
+  //     return {
+  //       formattedDate,
+  //       ...record
+  //     };
+  //   });
+  //   this.setState({
+  //     data: formattedState,
+  //     humidity: formattedState[0].humidity
+  //   });
+  // };
+
+  componentWillMount = async () => {
     const newState = Object.values((await this.getData()).data);
     const formattedState = newState.map(record => {
       const formattedDate = record.timestamp.substring(6, 10);
@@ -204,6 +219,9 @@ class ProfilePage extends React.Component {
 
 function CustomTooltip(props) {
   const { payload: raw, active } = props;
+
+  console.log(raw);
+
   const { timestamp } = raw.length ? raw[0].payload : {};
   const newDate = new Date(timestamp);
   const time = newDate.toTimeString().substring(0, 8);
