@@ -256,7 +256,6 @@ function CustomTooltip(props) {
   return null;
 }
 
-export default withStyles(profilePageStyle)(ProfilePage);
-
-
 */
+
+export default withStyles(profilePageStyle)(ProfilePage);
