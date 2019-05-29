@@ -169,8 +169,8 @@ class ProfilePage extends React.Component {
                                 <XAxis dataKey="formattedDate" />
                                 <YAxis />
                                 <CartesianGrid strokeDasharray="3 3" />
-                                <Tooltip content={<CustomTooltip />} />
-                                {/* <Tooltip /> */}
+                                {/* <Tooltip content={<CustomTooltip />} /> */}
+                                <Tooltip />
                                 <Legend />
                                 <Line
                                   type="monotone"
@@ -226,6 +226,8 @@ class ProfilePage extends React.Component {
 // 5. Realized Formatted Date isn't want I need, I need timestamp. changed lines 233 and 240 to timestamp and redifened timestamp
 // as timestamp2 on lines 241 and 243
 
+/*
+
 function CustomTooltip(props) {
   //Original
   //const { payload: raw, active } = props;
@@ -233,6 +235,7 @@ function CustomTooltip(props) {
   //Update
   const { payload: timestamp, active } = props;
   console.log(props);
+
 
   //Original
   //const { timestamp } = raw.length ? raw[0].payload : {};
@@ -254,3 +257,6 @@ function CustomTooltip(props) {
 }
 
 export default withStyles(profilePageStyle)(ProfilePage);
+
+
+*/
