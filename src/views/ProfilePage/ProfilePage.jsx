@@ -208,8 +208,6 @@ function CustomTooltip(props) {
   const newDate = new Date(timestamp);
   const time = newDate.toTimeString().substring(0, 8);
 
-  console.log(time);
-
   if (active) {
     return (
       <div className="custom-tooltip">
