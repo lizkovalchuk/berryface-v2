@@ -4,6 +4,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 import LoginPage from "views/LoginPage/LoginPage.jsx";
+import RegisterPage from "views/RegisterPage/RegisterPage.jsx";
 
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
@@ -19,8 +20,15 @@ function HeaderLinks({ ...props }) {
     <List className={classes.list}>
       <Link to="/login-page" component={LoginPage}>
         <ListItem className={classes.listItem}>
-          <Button color="transparent" className={classes.navLink} style={{color:"white"}}>
+          <Button color="transparent" className={classes.navLink} style={{ color: "white" }}>
             Login
+          </Button>
+        </ListItem>
+      </Link>
+      <Link to="/register-page" component={RegisterPage}>
+        <ListItem className={classes.listItem}>
+          <Button color="transparent" className={classes.navLink} style={{ color: "white" }}>
+            Register
           </Button>
         </ListItem>
       </Link>

@@ -84,8 +84,8 @@ class Header extends React.Component {
                 {leftLinks}
               </Hidden>
             ) : (
-              brandComponent
-            )}
+                brandComponent
+              )}
           </div>
           <Hidden implementation="css">{rightLinks}</Hidden>
         </Toolbar>
