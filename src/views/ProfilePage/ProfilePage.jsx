@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import PropTypes from 'prop-types';
 import axios from "axios";
 import {
   LineChart,
@@ -169,7 +170,7 @@ class ProfilePage extends React.Component {
                                 <XAxis dataKey="formattedDate" />
                                 <YAxis />
                                 <CartesianGrid strokeDasharray="3 3" />
-                                {/* <Tooltip content={<CustomTooltip />} /> */}
+                                {/* <Tooltip content={<CustomTooltip props={this.state} />} /> */}
                                 <Tooltip />
                                 <Legend />
                                 <Line
@@ -225,8 +226,11 @@ class ProfilePage extends React.Component {
 // .lenght on raw isn't working when destructruing props on line 222. Changed raw to formattedDate
 // 5. Realized Formatted Date isn't want I need, I need timestamp. changed lines 233 and 240 to timestamp and redifened timestamp
 // as timestamp2 on lines 241 and 243
+// 6. Adding default props to CustomTooltip
+// 7. Adding proptypes because maybe that will fix why default props isn't working (breaks entire ProfilePage.jsx)
+// 8. Tried passing props inside the <CustomToolip/> component on line 173
 
-/*
+
 
 function CustomTooltip(props) {
   //Original
@@ -235,7 +239,7 @@ function CustomTooltip(props) {
   //Update
   const { payload: timestamp, active } = props;
   console.log(props);
-
+  // console.log(raw);
 
   //Original
   //const { timestamp } = raw.length ? raw[0].payload : {};
@@ -244,18 +248,28 @@ function CustomTooltip(props) {
   const { timestamp2 } = timestamp.length ? timestamp[0].payload : {};
 
   const newDate = new Date(timestamp2);
+  //const newDate = new Date(timestamp);
   const time = newDate.toTimeString().substring(0, 8);
 
-  if (active) {
-    return (
-      <div className="custom-tooltip">
-        <Paper className="label">{`${time}`}</Paper>
-      </div>
-    );
-  }
-  return null;
+  // if (active) {
+  return (
+    <div className="custom-tooltip">
+      <Paper className="label">{`${time}`}</Paper>
+    </div>
+  );
+  // }
+  // return null;
 }
 
-*/
+CustomTooltip.defaultProps = {
+  payload: { formattedDate: "4-20", humidity: 60, temperature: 19, timestamp: "2019-04-20T17:01:00.512587" },
+  timestamp: "2019-04-20T21:30:29.754451",
+  raw: "1:30:29",
+  time: "1:30:29",
+  active: true,
+};
+// CustomTooltip.propTypes = {
+//   payload: React.PropTypes.object.isRequired
+// }
 
 export default withStyles(profilePageStyle)(ProfilePage);

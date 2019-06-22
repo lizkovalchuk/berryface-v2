@@ -34,7 +34,7 @@ class LoginPage extends React.Component {
   componentDidMount() {
     // we add a hidden class to the card and after 700 ms we delete it and the transition appears
     setTimeout(
-      function() {
+      function () {
         this.setState({ cardAnimaton: "" });
       }.bind(this),
       700
@@ -48,7 +48,7 @@ class LoginPage extends React.Component {
           absolute
           color="transparent"
           // brand="BerryFace"
-          brand={<Link to="landing-page" style={{color: "white"}}>BerryFace</Link>}
+          brand={<Link to="landing-page" style={{ color: "white" }}>BerryFace</Link>}
           {...rest}
         />
         <div
@@ -69,21 +69,6 @@ class LoginPage extends React.Component {
                     </CardHeader>
                     <CardBody>
                       <CustomInput
-                        labelText="First Name..."
-                        id="first"
-                        formControlProps={{
-                          fullWidth: true
-                        }}
-                        inputProps={{
-                          type: "text",
-                          endAdornment: (
-                            <InputAdornment position="end">
-                              <People className={classes.inputIconsColor} />
-                            </InputAdornment>
-                          )
-                        }}
-                      />
-                      <CustomInput
                         labelText="Email..."
                         id="email"
                         formControlProps={{
@@ -91,6 +76,7 @@ class LoginPage extends React.Component {
                         }}
                         inputProps={{
                           type: "email",
+                          value: "hello@lizk.ca",
                           endAdornment: (
                             <InputAdornment position="end">
                               <Email className={classes.inputIconsColor} />
@@ -106,6 +92,7 @@ class LoginPage extends React.Component {
                         }}
                         inputProps={{
                           type: "password",
+                          value: "password",
                           endAdornment: (
                             <InputAdornment position="end">
                               <Icon className={classes.inputIconsColor}>
