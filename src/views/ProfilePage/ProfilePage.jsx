@@ -41,21 +41,6 @@ class ProfilePage extends React.Component {
     humidity: null
   };
 
-  // componentDidMount = async () => {
-  //   const newState = Object.values((await this.getData()).data);
-  //   const formattedState = newState.map(record => {
-  //     const formattedDate = record.timestamp.substring(6, 10);
-  //     return {
-  //       formattedDate,
-  //       ...record
-  //     };
-  //   });
-  //   this.setState({
-  //     data: formattedState,
-  //     humidity: formattedState[0].humidity
-  //   });
-  // };
-
   componentWillMount = async () => {
     const newState = Object.values((await this.getData()).data);
     const formattedState = newState.map(record => {
@@ -170,8 +155,9 @@ class ProfilePage extends React.Component {
                                 <XAxis dataKey="formattedDate" />
                                 <YAxis />
                                 <CartesianGrid strokeDasharray="3 3" />
+                                <Tooltip content={<CustomTooltip />} />
                                 {/* <Tooltip content={<CustomTooltip props={this.state} />} /> */}
-                                <Tooltip />
+                                {/* <Tooltip /> */}
                                 <Legend />
                                 <Line
                                   type="monotone"
@@ -218,6 +204,34 @@ class ProfilePage extends React.Component {
   }
 }
 
+function CustomTooltip(props) {
+  const { payload: raw, active } = props;
+  const { timestamp } = raw.length ? raw[0].payload : {};
+  const newDate = new Date(timestamp);
+  const time = newDate.toTimeString().substring(0, 8);
+
+  console.log(time);
+
+  if (active) {
+    return (
+      <div className="custom-tooltip">
+        <Paper className="label">{`${time}`}</Paper>
+      </div>
+    );
+  }
+  return null;
+}
+
+export default withStyles(profilePageStyle)(ProfilePage);
+
+
+
+
+
+/*
+
+
+
 // Attempts
 // 1. Removed .lenght after Raw in the ternary first statement, though with this change, the page would not even open.
 // 2. I embedded the code inside CustomTooltip inside ComponentDidMount
@@ -232,22 +246,29 @@ class ProfilePage extends React.Component {
 
 
 
+
+
+
+
+
+
+
 function CustomTooltip(props) {
   //Original
-  //const { payload: raw, active } = props;
+  const { payload: raw, active } = props;
 
   //Update
-  const { payload: timestamp, active } = props;
+  // const { payload: timestamp, active } = props;
   console.log(props);
   // console.log(raw);
 
   //Original
-  //const { timestamp } = raw.length ? raw[0].payload : {};
+  const { timestamp } = raw.length ? raw[0].payload : {};
 
   //Update
-  const { timestamp2 } = timestamp.length ? timestamp[0].payload : {};
+  //const { timestamp2 } = timestamp.length ? timestamp[0].payload : {};
 
-  const newDate = new Date(timestamp2);
+  //const newDate = new Date(timestamp2);
   //const newDate = new Date(timestamp);
   const time = newDate.toTimeString().substring(0, 8);
 
@@ -261,15 +282,16 @@ function CustomTooltip(props) {
   // return null;
 }
 
-CustomTooltip.defaultProps = {
-  payload: { formattedDate: "4-20", humidity: 60, temperature: 19, timestamp: "2019-04-20T17:01:00.512587" },
-  timestamp: "2019-04-20T21:30:29.754451",
-  raw: "1:30:29",
-  time: "1:30:29",
-  active: true,
-};
+// CustomTooltip.defaultProps = {
+//   payload: { formattedDate: "4-20", humidity: 60, temperature: 19, timestamp: "2019-04-20T17:01:00.512587" },
+//   timestamp: "2019-04-20T21:30:29.754451",
+//   raw: "1:30:29",
+//   time: "1:30:29",
+//   active: true,
+// };
 // CustomTooltip.propTypes = {
 //   payload: React.PropTypes.object.isRequired
 // }
 
-export default withStyles(profilePageStyle)(ProfilePage);
+
+*/

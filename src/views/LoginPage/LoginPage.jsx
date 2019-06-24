@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import fire from "../../config/Fire"
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 import InputAdornment from "@material-ui/core/InputAdornment";
@@ -26,9 +27,13 @@ import loginPageStyle from "assets/jss/material-kit-react/views/loginPage.jsx";
 class LoginPage extends React.Component {
   constructor(props) {
     super(props);
+    this.login = this.login.bind(this);
+    this.handleChange = this.handleChange.bind(this);
     // we use this to make the card to appear after the page has been rendered
     this.state = {
-      cardAnimaton: "cardHidden"
+      cardAnimaton: "cardHidden",
+      email: 'hello@lizk.ca',
+      password: 'password'
     };
   }
   componentDidMount() {
@@ -40,6 +45,20 @@ class LoginPage extends React.Component {
       700
     );
   }
+
+  login(e) {
+    e.preventDefault();
+    fire.auth().signInWithEmailAndPassword(this.state.email, this.state.password).then((u) => {
+    }).catch((error) => {
+      console.log(error)
+    });
+    this.props.history.push('/profile-page');
+  }
+
+  handleChange(e) {
+    this.setState({ [e.target.name]: e.target.value });
+  }
+
   render() {
     const { classes, ...rest } = this.props;
     return (
@@ -74,9 +93,11 @@ class LoginPage extends React.Component {
                         formControlProps={{
                           fullWidth: true
                         }}
+                        onChange={this.handleChange}
                         inputProps={{
                           type: "email",
-                          value: "hello@lizk.ca",
+                          //value: "hello@lizk.ca",
+                          value: this.state.email,
                           endAdornment: (
                             <InputAdornment position="end">
                               <Email className={classes.inputIconsColor} />
@@ -90,9 +111,11 @@ class LoginPage extends React.Component {
                         formControlProps={{
                           fullWidth: true
                         }}
+                        onChange={this.handleChange}
                         inputProps={{
                           type: "password",
-                          value: "password",
+                          //value: "password",
+                          value: this.state.password,
                           endAdornment: (
                             <InputAdornment position="end">
                               <Icon className={classes.inputIconsColor}>
@@ -104,11 +127,11 @@ class LoginPage extends React.Component {
                       />
                     </CardBody>
                     <CardFooter className={classes.cardFooter}>
-                      <Link to="profile-page">
-                        <Button simple color="primary" size="lg">
-                          Sign In
+                      {/* <Link to="profile-page"> */}
+                      <Button onClick={this.login} simple color="primary" size="lg">
+                        Sign In
                         </Button>
-                      </Link>
+                      {/* </Link> */}
                     </CardFooter>
                   </form>
                 </Card>
