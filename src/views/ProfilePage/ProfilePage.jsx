@@ -55,13 +55,8 @@ class ProfilePage extends React.Component {
       humidity: formattedState[0].humidity
     });
 
-    const reversed = this.state.data;
-
-    {console.log(reversed)}
-
+    const reversed = this.state.data.reverse();
   };
-
-
 
   getData = async () => {
     const res = await axios.get(
@@ -249,22 +244,12 @@ export default withStyles(profilePageStyle)(ProfilePage);
 // 7. Adding proptypes because maybe that will fix why default props isn't working (breaks entire ProfilePage.jsx)
 // 8. Tried passing props inside the <CustomToolip/> component on line 173
 
-
-
-
-
-
-
-
-
-
 function CustomTooltip(props) {
   //Original
   const { payload: raw, active } = props;
 
   //Update
   // const { payload: timestamp, active } = props;
-  console.log(props);
   // console.log(raw);
 
   //Original
@@ -297,6 +282,5 @@ function CustomTooltip(props) {
 // CustomTooltip.propTypes = {
 //   payload: React.PropTypes.object.isRequired
 // }
-
 
 */
