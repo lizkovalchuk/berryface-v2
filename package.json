@@ -4,7 +4,7 @@
   "description": "BerryFace, an interface for your raspberry pi",
   "private": true,
   "main": "dist/index.js",
-  "homepage": "https://lizkovalchuk.github.io/berryface-v2/",
+  "homepage": "https://lizk.ca/berryface",
   "dependencies": {
     "@material-ui/core": "3.9.2",
     "@material-ui/icons": "3.0.2",

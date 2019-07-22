@@ -54,7 +54,14 @@ class ProfilePage extends React.Component {
       data: formattedState,
       humidity: formattedState[0].humidity
     });
+
+    const reversed = this.state.data;
+
+    {console.log(reversed)}
+
   };
+
+
 
   getData = async () => {
     const res = await axios.get(
@@ -209,8 +216,6 @@ function CustomTooltip(props) {
   const { timestamp } = raw.length ? raw[0].payload : {};
   const newDate = new Date(timestamp);
   const time = newDate.toTimeString().substring(0, 8);
-
-  console.log(time);
 
   if (active) {
     return (
