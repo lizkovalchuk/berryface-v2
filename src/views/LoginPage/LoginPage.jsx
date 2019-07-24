@@ -52,7 +52,7 @@ class LoginPage extends React.Component {
     }).catch((error) => {
       console.log(error)
     });
-    this.props.history.push('/profile-page');
+    this.props.history.push('/berryface/profile-page');
   }
 
   handleChange(e) {
@@ -67,7 +67,7 @@ class LoginPage extends React.Component {
           absolute
           color="transparent"
           // brand="BerryFace"
-          brand={<Link to="landing-page" style={{ color: "white" }}>BerryFace</Link>}
+          brand={<Link to="/berryface/landing-page" style={{ color: "white" }}>BerryFace</Link>}
           {...rest}
         />
         <div

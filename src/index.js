@@ -1,7 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { createBrowserHistory } from "history";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { Router as Router, Route, Switch } from "react-router-dom";
 import fire from "./config/Fire";
 import "assets/scss/material-kit-react.scss?v=1.4.0";
 
@@ -47,7 +47,7 @@ class App extends React.Component {
         <Switch>
           <Route path="/login-page" component={LoginPage} />
           <Route path="/register-page" component={RegisterPage} />
-          {this.state.user ? (<Route path="/profile-page" component={ProfilePage} />) : (<Route path="/" component={LandingPage} />)}
+          {this.state.user ? (<Route path="/berryface/profile-page" component={ProfilePage} />) : (<Route path="/" component={LandingPage} />)}
           <Route path="/" component={LandingPage} />
         </Switch>
       </Router>
