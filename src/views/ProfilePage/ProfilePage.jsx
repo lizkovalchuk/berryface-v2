@@ -67,7 +67,7 @@ class ProfilePage extends React.Component {
 
   render() {
     // getData();
-    console.log(this.state);
+    // console.log(this.state);
 
     // function getIntroOfPage(label) {
     //   console.log(label);
@@ -183,7 +183,6 @@ class ProfilePage extends React.Component {
                             <GridItem xs={12} sm={12} md={8}>
                               <div id="profile__div_humidityContainer">
                                 <LiquidGauge
-                                  // value={this.props.humid}
                                   value={this.state.humidity}
                                   percent="%"
                                   textSize="1"
@@ -207,13 +206,12 @@ class ProfilePage extends React.Component {
 }
 
 function CustomTooltip(props) {
-  const { payload: raw, active } = props;
-  var { timestamp } = "2019-07-22T10:36:45.509909";
-  var { timestamp } = raw.length ? raw[0].payload : {};
+  const { payload } = props;
+  const timestamp = payload.length === 0 ? {} : payload[0].payload.timestamp;
   const newDate = new Date(timestamp);
   const time = newDate.toTimeString().substring(0, 8);
 
-  if (active) {
+  if (props.active) {
     return (
       <div className="custom-tooltip">
         <Paper className="label">{`${time}`}</Paper>
@@ -224,64 +222,3 @@ function CustomTooltip(props) {
 }
 
 export default withStyles(profilePageStyle)(ProfilePage);
-
-
-
-
-
-/*
-
-
-
-// Attempts
-// 1. Removed .lenght after Raw in the ternary first statement, though with this change, the page would not even open.
-// 2. I embedded the code inside CustomTooltip inside ComponentDidMount
-// 3. I embedded the entire CustomTooltip inside ComponentDidMount
-// 4. Noticed that there is no extraction of a variable called "raw" in ComponentWillMount which is why
-// .lenght on raw isn't working when destructruing props on line 222. Changed raw to formattedDate
-// 5. Realized Formatted Date isn't want I need, I need timestamp. changed lines 233 and 240 to timestamp and redifened timestamp
-// as timestamp2 on lines 241 and 243
-// 6. Adding default props to CustomTooltip
-// 7. Adding proptypes because maybe that will fix why default props isn't working (breaks entire ProfilePage.jsx)
-// 8. Tried passing props inside the <CustomToolip/> component on line 173
-
-function CustomTooltip(props) {
-  //Original
-  const { payload: raw, active } = props;
-
-  //Update
-  // const { payload: timestamp, active } = props;
-  // console.log(raw);
-
-  //Original
-  const { timestamp } = raw.length ? raw[0].payload : {};
-
-  //Update
-  //const { timestamp2 } = timestamp.length ? timestamp[0].payload : {};
-
-  //const newDate = new Date(timestamp2);
-  //const newDate = new Date(timestamp);
-  const time = newDate.toTimeString().substring(0, 8);
-
-  // if (active) {
-  return (
-    <div className="custom-tooltip">
-      <Paper className="label">{`${time}`}</Paper>
-    </div>
-  );
-  // }
-  // return null;
-}
-
-// CustomTooltip.defaultProps = {
-//   payload: { formattedDate: "4-20", humidity: 60, temperature: 19, timestamp: "2019-04-20T17:01:00.512587" },
-//   timestamp: "2019-04-20T21:30:29.754451",
-//   raw: "1:30:29",
-//   time: "1:30:29",
-//   active: true,
-// };
-// CustomTooltip.propTypes = {
-//   payload: React.PropTypes.object.isRequired
-// }
-
-*/
