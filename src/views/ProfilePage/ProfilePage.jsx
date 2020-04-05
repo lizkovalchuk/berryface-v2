@@ -207,6 +207,9 @@ class ProfilePage extends React.Component {
 
 function CustomTooltip(props) {
   const { payload } = props;
+  if (!payload) {
+    return null;
+  }
   const timestamp = payload.length === 0 ? {} : payload[0].payload.timestamp;
   const newDate = new Date(timestamp);
   const time = newDate.toTimeString().substring(0, 8);

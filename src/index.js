@@ -55,21 +55,3 @@ class App extends React.Component {
 }
 
 ReactDOM.render(<App />, document.getElementById("root"));
-
-/*
-
-HOW IT WAS
-
-ReactDOM.render(
-  <Router history={hist}>
-    <Switch>
-      <Route path="/login-page" component={LoginPage} />
-      <Route path="/register-page" component={RegisterPage} />
-      <Route path="/profile-page" component={ProfilePage} />
-      <Route path="/" component={LandingPage} />
-    </Switch>
-  </Router>,
-  document.getElementById("root")
-);
-
-*/
