@@ -163,10 +163,20 @@ class ProfilePage extends React.Component {
                             justify="center"
                           >
                             <GridItem xs={12} sm={12} md={12}>
-                              <select value={this.state.value} onChange={this.handleChange}>                              
-                                <option value="TEN_LATEST">Last 10 entries</option>
-                                <option value="ALL">ALL</option>
-                              </select>
+                              <div id="profile__GridContainer_filter">
+                                <select value={this.state.value} onChange={this.handleChange}>                              
+                                  <option value="TEN_LATEST">Last 10 entries</option>
+                                  <option value="ALL">ALL</option>
+                                </select>
+                              </div>
+                            </GridItem>
+                            <GridItem xs={12} sm={12} md={12}>
+                              {/* <div> */}
+                                {/* <select value={this.state.value} onChange={this.handleChange}>                              
+                                  <option value="TEN_LATEST">Last 10 entries</option>
+                                  <option value="ALL">ALL</option>
+                                </select> */}
+                              {/* </div> */}
                               <LineChart
                                 width={600}
                                 height={300}
