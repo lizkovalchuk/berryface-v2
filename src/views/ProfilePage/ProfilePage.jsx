@@ -171,12 +171,6 @@ class ProfilePage extends React.Component {
                               </div>
                             </GridItem>
                             <GridItem xs={12} sm={12} md={12}>
-                              {/* <div> */}
-                                {/* <select value={this.state.value} onChange={this.handleChange}>                              
-                                  <option value="TEN_LATEST">Last 10 entries</option>
-                                  <option value="ALL">ALL</option>
-                                </select> */}
-                              {/* </div> */}
                               <LineChart
                                 width={600}
                                 height={300}
@@ -248,6 +242,7 @@ function CustomTooltip(props) {
   const date = dayjs(newDate).format('dddd, MMMM D, YYYY')
   const time = dayjs(newDate).format('h:mm:ss a');
   const temperature = payload.length === 0 ? {} : payload[0].payload.temperature;
+  const humidity = payload.length === 0 ? {} : payload[0].payload.humidity;
 
   if (props.active) {
     return (
@@ -258,6 +253,8 @@ function CustomTooltip(props) {
           Time: {`${time}`}
           <br/>
           Temperature: {`${temperature}`}
+          <br/>
+          Humidity: {`${humidity}`}
         </Paper>
       </div>
     );
