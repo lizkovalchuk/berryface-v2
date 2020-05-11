@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import PropTypes from 'prop-types';
 import axios from "axios";
+import dayjs from 'dayjs';
 import {
   LineChart,
   Line,
@@ -55,7 +56,6 @@ class ProfilePage extends React.Component {
       humidity: formattedState[0].humidity
     });
 
-    const reversed = this.state.data.reverse();
   };
 
   getData = async () => {
@@ -66,12 +66,6 @@ class ProfilePage extends React.Component {
   };
 
   render() {
-    // getData();
-    // console.log(this.state);
-
-    // function getIntroOfPage(label) {
-    //   console.log(label);
-    // }
 
     const { classes, ...rest } = this.props;
     const imageClasses = classNames(
@@ -210,14 +204,23 @@ function CustomTooltip(props) {
   if (!payload) {
     return null;
   }
+
   const timestamp = payload.length === 0 ? {} : payload[0].payload.timestamp;
   const newDate = new Date(timestamp);
-  const time = newDate.toTimeString().substring(0, 8);
+  const date = dayjs(newDate).format('dddd, MMMM D, YYYY')
+  const time = dayjs(newDate).format('h:mm:ss a');
+  const temperature = payload.length === 0 ? {} : payload[0].payload.temperature;
 
   if (props.active) {
     return (
       <div className="custom-tooltip">
-        <Paper className="label">{`${time}`}</Paper>
+        <Paper className="label">
+          Date: {`${date}`}
+          <br/>
+          Time: {`${time}`}
+          <br/>
+          Temperature: {`${temperature}`}
+        </Paper>
       </div>
     );
   }

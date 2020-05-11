@@ -84,7 +84,7 @@ Parallax.propTypes = {
   className: PropTypes.string,
   filter: PropTypes.bool,
   children: PropTypes.node,
-  style: PropTypes.string,
+  style: PropTypes.object,
   image: PropTypes.string
 };
 
