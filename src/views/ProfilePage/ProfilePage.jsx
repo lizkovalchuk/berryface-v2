@@ -68,6 +68,20 @@ class ProfilePage extends React.Component {
         this.updateState(res);
         break;
       }
+      case '25_LATEST' : {
+        const res = await axios.get(
+          'https://raspberrypi-2019.firebaseio.com/records.json?orderBy="timestamp"&limitToLast=25'
+        );
+        this.updateState(res);
+        break;
+      }
+      case '50_LATEST' : {
+        const res = await axios.get(
+          'https://raspberrypi-2019.firebaseio.com/records.json?orderBy="timestamp"&limitToLast=50'
+        );
+        this.updateState(res);
+        break;
+      }
       case 'ALL' : {
         const res = await axios.get(
           'https://raspberrypi-2019.firebaseio.com/records.json?orderBy="timestamp"'
@@ -166,6 +180,8 @@ class ProfilePage extends React.Component {
                               <div id="profile__GridContainer_filter">
                                 <select value={this.state.value} onChange={this.handleChange}>                              
                                   <option value="TEN_LATEST">Last 10 entries</option>
+                                  <option value="25_LATEST">Last 25 entries</option>
+                                  <option value="50_LATEST">Last 50 entries</option>
                                   <option value="ALL">ALL</option>
                                 </select>
                               </div>
