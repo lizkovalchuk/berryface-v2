@@ -37,13 +37,49 @@ import profilePageStyle from "assets/jss/material-kit-react/views/profilePage";
 import "assets/scss/custom-style/profile-page.scss";
 
 class ProfilePage extends React.Component {
-  state = {
-    data: [],
-    humidity: null
-  };
+
+  constructor(props) {
+    super(props);
+    this.handleChange = this.handleChange.bind(this);
+
+    this.state = {
+        data: [],
+        humidity: null,
+        value: 'TEN_LATEST'
+    }
+  }
+
+  handleChange(event) {
+    const param = event.target.value;
+    this.setState({value: param});
+    this.entriesFilter(param);
+  }
 
   componentWillMount = async () => {
-    const newState = Object.values((await this.getData()).data);
+    this.entriesFilter('TEN_LATEST');
+  };
+
+  entriesFilter = async (dateRange) => {
+    switch(dateRange){
+      case 'TEN_LATEST' : {
+        const res = await axios.get(
+          'https://raspberrypi-2019.firebaseio.com/records.json?orderBy="timestamp"&limitToLast=10'
+        );
+        this.updateState(res);
+        break;
+      }
+      case 'ALL' : {
+        const res = await axios.get(
+          'https://raspberrypi-2019.firebaseio.com/records.json?orderBy="timestamp"'
+        );
+        this.updateState(res);
+        break;
+      }
+    }
+  }
+
+  updateState = async (res) => {
+    const newState = Object.values((await res.data));
     const formattedState = newState.map(record => {
       const formattedDate = record.timestamp.substring(6, 10);
       return {
@@ -55,15 +91,7 @@ class ProfilePage extends React.Component {
       data: formattedState,
       humidity: formattedState[0].humidity
     });
-
-  };
-
-  getData = async () => {
-    const res = await axios.get(
-      'https://raspberrypi-2019.firebaseio.com/records.json?orderBy="timestamp"&limitToLast=10'
-    );
-    return res;
-  };
+  }
 
   render() {
 
@@ -102,7 +130,6 @@ class ProfilePage extends React.Component {
           }}
           {...rest}
         />
-        {/* <Parallax small filter image={require("assets/img/profile-bg.jpg")} /> */}
         <Parallax small filter style={{ height: "260px" }} />
         <div className={classNames(classes.main, classes.mainRaised)}>
           <div>
@@ -136,10 +163,13 @@ class ProfilePage extends React.Component {
                             justify="center"
                           >
                             <GridItem xs={12} sm={12} md={12}>
+                              <select value={this.state.value} onChange={this.handleChange}>                              
+                                <option value="TEN_LATEST">Last 10 entries</option>
+                                <option value="ALL">ALL</option>
+                              </select>
                               <LineChart
                                 width={600}
                                 height={300}
-                                // data={data}
                                 data={this.state.data}
                                 margin={{
                                   top: 5,
@@ -152,8 +182,6 @@ class ProfilePage extends React.Component {
                                 <YAxis />
                                 <CartesianGrid strokeDasharray="3 3" />
                                 <Tooltip content={<CustomTooltip />} />
-                                {/* <Tooltip content={<CustomTooltip props={this.state} />} /> */}
-                                {/* <Tooltip /> */}
                                 <Legend />
                                 <Line
                                   type="monotone"
