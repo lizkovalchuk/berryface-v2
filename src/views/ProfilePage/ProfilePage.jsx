@@ -33,8 +33,11 @@ import LiquidGauge from "components/LiquidGauge/LiquidGauge";
 
 import profilePageStyle from "assets/jss/material-kit-react/views/profilePage";
 
-//custom style
+// custom style
 import "assets/scss/custom-style/profile-page.scss";
+
+// helper functions
+import sum from '../../helpers/sums/sum';
 
 class ProfilePage extends React.Component {
 
@@ -271,6 +274,8 @@ function CustomTooltip(props) {
           Temperature: {`${temperature}`}
           <br/>
           Humidity: {`${humidity}`}
+          <br/>
+          Test: {`${sum(2,2)}`}
         </Paper>
       </div>
     );
