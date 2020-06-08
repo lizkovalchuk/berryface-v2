@@ -1,7 +1,5 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import PropTypes from 'prop-types';
-import axios from "axios";
 import dayjs from 'dayjs';
 import {
   LineChart,
@@ -36,6 +34,9 @@ import profilePageStyle from "assets/jss/material-kit-react/views/profilePage";
 // custom style
 import "assets/scss/custom-style/profile-page.scss";
 
+// api
+import { entriesFilter } from "../../api/api";
+
 // helper functions
 import sum from '../../helpers/sums/sum';
 
@@ -52,51 +53,20 @@ class ProfilePage extends React.Component {
     }
   }
 
-  handleChange(event) {
+  handleChange = async (event) => {
     const param = event.target.value;
     this.setState({value: param});
-    this.entriesFilter(param);
+    let result = await entriesFilter(param);
+    this.updateState(result);
   }
 
   componentWillMount = async () => {
-    this.entriesFilter('TEN_LATEST');
+    let result = await entriesFilter('TEN_LATEST');
+    this.updateState(result);
   };
 
-  entriesFilter = async (dateRange) => {
-    switch(dateRange){
-      case 'TEN_LATEST' : {
-        const res = await axios.get(
-          'https://raspberrypi-2019.firebaseio.com/records.json?orderBy="timestamp"&limitToLast=10'
-        );
-        this.updateState(res);
-        break;
-      }
-      case '25_LATEST' : {
-        const res = await axios.get(
-          'https://raspberrypi-2019.firebaseio.com/records.json?orderBy="timestamp"&limitToLast=25'
-        );
-        this.updateState(res);
-        break;
-      }
-      case '50_LATEST' : {
-        const res = await axios.get(
-          'https://raspberrypi-2019.firebaseio.com/records.json?orderBy="timestamp"&limitToLast=50'
-        );
-        this.updateState(res);
-        break;
-      }
-      case 'ALL' : {
-        const res = await axios.get(
-          'https://raspberrypi-2019.firebaseio.com/records.json?orderBy="timestamp"'
-        );
-        this.updateState(res);
-        break;
-      }
-    }
-  }
-
   updateState = async (res) => {
-    const newState = Object.values((await res.data));
+    const newState = Object.values(res);
     const formattedState = newState.map(record => {
       const formattedDate = record.timestamp.substring(6, 10);
       return {
@@ -185,7 +155,6 @@ class ProfilePage extends React.Component {
                                   <option value="TEN_LATEST">Last 10 entries</option>
                                   <option value="25_LATEST">Last 25 entries</option>
                                   <option value="50_LATEST">Last 50 entries</option>
-                                  <option value="ALL">ALL</option>
                                 </select>
                               </div>
                             </GridItem>
