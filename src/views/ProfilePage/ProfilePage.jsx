@@ -178,6 +178,12 @@ class ProfilePage extends React.Component {
                                 <Line
                                   type="monotone"
                                   dataKey="temperature"
+                                  stroke="#DC143C"
+                                  activeDot={{ r: 8 }}
+                                />
+                                <Line
+                                  type="monotone"
+                                  dataKey="humidity"
                                   stroke="#8884d8"
                                   activeDot={{ r: 8 }}
                                 />
