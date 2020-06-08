@@ -15,7 +15,6 @@ import {
 import classNames from "classnames";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
-import Paper from "@material-ui/core/Paper";
 // @material-ui/icons
 import Sun from "@material-ui/icons/Brightness6";
 import Bubble from "@material-ui/icons/BubbleChart";
@@ -39,6 +38,9 @@ import { entriesFilter } from "../../api/api";
 
 // helper functions
 import sum from '../../helpers/sums/sum';
+
+// custom components
+import CustomTooltip  from '../../components/CustomTooltip/tooltip'
 
 class ProfilePage extends React.Component {
 
@@ -76,12 +78,11 @@ class ProfilePage extends React.Component {
     });
     this.setState({
       data: formattedState,
-      humidity: formattedState[0].humidity
+      humidity: formattedState[formattedState.length - 1].humidity
     });
   }
 
   render() {
-
     const { classes, ...rest } = this.props;
     const imageClasses = classNames(
       classes.imgRaised,
@@ -223,39 +224,6 @@ class ProfilePage extends React.Component {
       </div>
     );
   }
-}
-
-function CustomTooltip(props) {
-  const { payload } = props;
-  if (!payload) {
-    return null;
-  }
-
-  const timestamp = payload.length === 0 ? {} : payload[0].payload.timestamp;
-  const newDate = new Date(timestamp);
-  const date = dayjs(newDate).format('dddd, MMMM D, YYYY')
-  const time = dayjs(newDate).format('h:mm:ss a');
-  const temperature = payload.length === 0 ? {} : payload[0].payload.temperature;
-  const humidity = payload.length === 0 ? {} : payload[0].payload.humidity;
-
-  if (props.active) {
-    return (
-      <div className="custom-tooltip">
-        <Paper className="label">
-          Date: {`${date}`}
-          <br/>
-          Time: {`${time}`}
-          <br/>
-          Temperature: {`${temperature}`}
-          <br/>
-          Humidity: {`${humidity}`}
-          <br/>
-          Test: {`${sum(2,2)}`}
-        </Paper>
-      </div>
-    );
-  }
-  return null;
 }
 
 export default withStyles(profilePageStyle)(ProfilePage);
