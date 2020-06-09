@@ -26,6 +26,7 @@
     "react-scripts": "2.1.5",
     "react-slick": "0.23.2",
     "react-swipeable-views": "0.13.1",
+    "react-thermometer-component": "^1.0.1",
     "recharts": "^1.6.1"
   },
   "devDependencies": {
