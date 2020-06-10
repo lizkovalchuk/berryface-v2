@@ -26,16 +26,21 @@ function groupByDay(data) {
   const rawData = Object.values(data);
   rawData.forEach((record) => {
     const day = dayjs(record.timestamp).format("MM-DD")
+    const formattedDay = dayjs(record.timestamp).format("YYYY-MM-DD")
+    const updatedRecord = {
+      ...record,
+      formattedDay
+    };
     if (days[day] === undefined) {
-      days[day] = [record];
+      days[day] = [updatedRecord];
     } else {
-      days[day].push(record);
+      days[day].push(updatedRecord);
     }
   });
   return days;
 }
 
-function getDailyData(data, line1fn, line2fn) {
+function getDailyData(data, line1fn, line2fn, line1Name, line2Name) {
   const daysKeys = Object.keys(data);
   const days = [];
   
@@ -51,7 +56,10 @@ function getDailyData(data, line1fn, line2fn) {
     days.push({
       formattedDate: day,
       line1: line1,
-      line2: line2
+      line2: line2,
+      displayDate: data[day][0].formattedDay,
+      line1Name,
+      line2Name
     })
   })
   return days;
@@ -65,7 +73,7 @@ function getAverage(nums){
   nums.forEach((num) => {
     sum = sum + num;
   })
-  const average = sum / nums.length;
+  const average = (sum / nums.length).toFixed(2);
   return average;
 }
 
@@ -83,13 +91,21 @@ function getHistorical(data, numEntries) {
 
 function getHighsAndLows(data, numEntries) {
   const days = groupByDay(data);
-  const daysHL = getDailyData(days, (temps, humidity) => Math.max(...temps), (temps, humidity) => Math.min(...temps));
+  const daysHL = getDailyData(days, 
+    (temps, humidity) => Math.max(...temps), 
+    (temps, humidity) => Math.min(...temps),
+    "High", 
+    "Low");
   return getLastN(daysHL, numEntries);
 }
 
 function getAverages(data, numEntries){
   const days = groupByDay(data);
-  const daysAverages = getDailyData(days, (temps, humidity) => getAverage(temps), (temps, humidity) => getAverage(humidity));
+  const daysAverages = getDailyData(days,
+    (temps, humidity) => getAverage(temps),
+    (temps, humidity) => getAverage(humidity),
+    "Temperature",
+    "Humidity");
   return getLastN(daysAverages, numEntries) ;
 }
 
