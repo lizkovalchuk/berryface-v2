@@ -58,6 +58,7 @@ class ProfilePage extends React.Component {
           temp: 0
         },
         loading: false,
+        averages: []
     }
   }
 
@@ -88,7 +89,8 @@ class ProfilePage extends React.Component {
           data: data,
           current: transformer.getCurrent(data),
           historicalData: transformer.getHistorical(data, this.state.numEntries),
-          highsAndLowsData: transformer.getHighsAndLows(data, this.state.tempLimitNumEntries)
+          highsAndLowsData: transformer.getHighsAndLows(data, this.state.tempLimitNumEntries),
+          averages: transformer.getAverages(data, 30)
         });
 
       });
@@ -270,15 +272,17 @@ class ProfilePage extends React.Component {
                               <Legend />
                               <Line
                                 type="monotone"
-                                dataKey="low"
+                                dataKey="line2"
                                 stroke="#DC143C"
                                 activeDot={{ r: 8 }}
+                                name="daily low"
                               />
                               <Line
                                 type="monotone"
-                                dataKey="high"
+                                dataKey="line1"
                                 stroke="#8884d8"
                                 activeDot={{ r: 8 }}
+                                name="daily high"
                               />
                             </LineChart>
                           </GridItem>
@@ -298,7 +302,7 @@ class ProfilePage extends React.Component {
                             <LineChart
                               width={600}
                               height={300}
-                              data={this.state.highsAndLowsData}
+                              data={this.state.averages}
                               margin={{
                                 top: 5,
                                 right: 30,
@@ -313,17 +317,17 @@ class ProfilePage extends React.Component {
                               <Legend/>                         
                               <Line
                                 type="monotone"
-                                dataKey="low"
+                                dataKey="line1"
                                 stroke="#DC143C"
                                 activeDot={{ r: 8 }}
-                                
+                                name="temperature"
                               />
                               <Line
                                 type="monotone"
-                                dataKey="high"
+                                dataKey="line2"
                                 stroke="#8884d8"
                                 activeDot={{ r: 8 }}
-                                
+                                name="humidity"
                               />
                             </LineChart>
                           </GridItem>

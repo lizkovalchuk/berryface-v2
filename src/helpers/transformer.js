@@ -21,6 +21,54 @@ function getLastN(data, n) {
   return data.splice(start, end);
 }
 
+function groupByDay(data) {
+  const days = {};
+  const rawData = Object.values(data);
+  rawData.forEach((record) => {
+    const day = dayjs(record.timestamp).format("MM-DD")
+    if (days[day] === undefined) {
+      days[day] = [record];
+    } else {
+      days[day].push(record);
+    }
+  });
+  return days;
+}
+
+function getDailyData(data, line1fn, line2fn) {
+  const daysKeys = Object.keys(data);
+  const days = [];
+  
+  daysKeys.forEach((day) => {
+    const tempsOfDay = data[day].map((record) => {
+      return record.temperature;
+    });
+    const humsOfDays = data[day].map((record) => {
+      return record.humidity;
+    })
+    const line1 = line1fn(tempsOfDay, humsOfDays);
+    const line2 = line2fn(tempsOfDay, humsOfDays);
+    days.push({
+      formattedDate: day,
+      line1: line1,
+      line2: line2
+    })
+  })
+  return days;
+}
+
+function getAverage(nums){
+  if (nums.length === 0){
+    return 0;
+  }
+  let sum = 0;
+  nums.forEach((num) => {
+    sum = sum + num;
+  })
+  const average = sum / nums.length;
+  return average;
+}
+
 function getHistorical(data, numEntries) {
   const rawData = Object.values(data);
   const formattedData = rawData.map(record => {
@@ -34,37 +82,20 @@ function getHistorical(data, numEntries) {
 }
 
 function getHighsAndLows(data, numEntries) {
-  const days = {};
-  const rawData = Object.values(data);
-  rawData.forEach((d) => {
-    const day = dayjs(d.timestamp).format("MM-DD")
-    if (days[day] === undefined) {
-      days[day] = [d];
-    } else {
-      days[day].push(d);
-    }
-  });
-  const daysKeys = Object.keys(days);
-
-  const daysHL = [];
-  
-  daysKeys.forEach((day) => {
-    const tempsOfDay = days[day].map((record) => {
-      return record.temperature;
-    });
-    const dayHigh = Math.max(...tempsOfDay);
-    const dayLow = Math.min(...tempsOfDay);
-    daysHL.push({
-      formattedDate: day,
-      high: dayHigh,
-      low: dayLow
-    })
-  })
+  const days = groupByDay(data);
+  const daysHL = getDailyData(days, (temps, humidity) => Math.max(...temps), (temps, humidity) => Math.min(...temps));
   return getLastN(daysHL, numEntries);
+}
+
+function getAverages(data, numEntries){
+  const days = groupByDay(data);
+  const daysAverages = getDailyData(days, (temps, humidity) => getAverage(temps), (temps, humidity) => getAverage(humidity));
+  return getLastN(daysAverages, numEntries) ;
 }
 
 export default {
   getCurrent,
   getHistorical,
-  getHighsAndLows
+  getHighsAndLows,
+  getAverages
 }
