@@ -36,8 +36,8 @@ import profilePageStyle from "assets/jss/material-kit-react/views/profilePage";
 import "assets/scss/custom-style/profile-page.scss";
 
 // api
-import { entriesFilter } from "../../api/api";
-
+import { getData } from "../../api/api";
+import transformer from "../../helpers/transformer";
 // custom components
 import CustomTooltip  from '../../components/CustomTooltip/tooltip'
 
@@ -49,46 +49,53 @@ class ProfilePage extends React.Component {
 
     this.state = {
         data: [],
-        humidity: null,
-        value: 'TEN_LATEST'
+        historicalData: [],
+        highsAndLowsData: [],
+        numEntries: 10,
+        tempLimitNumEntries: 7,
+        current: {
+          humidity: 0,
+          temp: 0
+        },
+        loading: false,
     }
   }
 
   historyChange = async (event) => {
     const param = event.target.value;
-    this.setState({value: param});
-    let result = await entriesFilter(param);
-    this.updateState(result);
+    this.setState({
+      numEntries: param,
+      historicalData: transformer.getHistorical(this.state.data, param)
+    });
+  }
+
+  tempLimitChange = async (event) => {
+    const param = event.target.value;
+    this.setState({
+      tempLimitNumEntries: param,
+      highsAndLowsData: transformer.getHighsAndLows(this.state.data, param)
+    });
   }
 
   componentWillMount = async () => {
-    let result = await entriesFilter('TEN_LATEST');
-    this.updateState(result);
-  };
-
-  updateState = async (res) => {
-    const newState = Object.values(res);
-    const formattedState = newState.map(record => {
-      const formattedDate = record.timestamp.substring(6, 10);
-      return {
-        formattedDate,
-        ...record
-      };
-    });
     this.setState({
-      data: formattedState,
-      humidity: formattedState[formattedState.length - 1].humidity
+      loading: true
     });
-  }
+    getData()
+      .then((data) => {
+        this.setState({
+          loading: false,
+          data: data,
+          current: transformer.getCurrent(data),
+          historicalData: transformer.getHistorical(data, this.state.numEntries),
+          highsAndLowsData: transformer.getHighsAndLows(data, this.state.tempLimitNumEntries)
+        });
+
+      });
+  };
 
   render() {
     const { classes, ...rest } = this.props;
-    const imageClasses = classNames(
-      classes.imgRaised,
-      classes.imgRoundedCircle,
-      classes.imgFluid
-    );
-    const navImageClasses = classNames(classes.imgRounded, classes.imgGallery);
     return (
       <div>
         <Header
@@ -137,145 +144,196 @@ class ProfilePage extends React.Component {
                 id="profile__GridContainer_chartWrappers"
               >
                 <GridItem xs={12} sm={12} md={8} className={classes.navWrapper}>
-                  <NavPills
-                    alignCenter
-                    color="primary"
-                    tabs={[
-                      {
-                        tabButton: "Current",
-                        tabIcon: Sun,
-                        tabContent: (
-                          <GridContainer
-                            justify="center"
-                            id="profile__GridContainer_current"
-                          >
-                            <GridItem xs={12} sm={6}>
-                              <Thermometer
-                                class="testing"
-                                theme="light"
-                                value="18"
-                                max="40"
-                                steps="3"
-                                format="°C"
-                                size="large"
-                                height="300"
+                {this.state.loading &&
+                  <h2>
+                    Loading
+                  </h2>
+                } 
+                {
+                  !this.state.loading  &&
+                  <NavPills 
+                  alignCenter
+                  color="primary"
+                  tabs={[
+                    {
+                      tabButton: "Current",
+                      tabIcon: Sun,
+                      tabContent: (
+                        <GridContainer
+                          justify="center"
+                          id="profile__GridContainer_current"
+                        >
+                          <GridItem xs={12} sm={6}>
+                            <Thermometer
+                              theme="light"
+                              value={this.state.current.temp}
+                              max="40"
+                              steps="3"
+                              format="°C"
+                              size="large"
+                              height="300"
+                            />
+                          </GridItem>
+                          <GridItem xs={12} sm={6}>
+                            <LiquidGauge
+                              value={this.state.current.humidity}
+                              percent="%"
+                              textSize="1"
+                            />
+                          </GridItem>
+                        </GridContainer>
+                      )
+                    },
+                    {
+                      tabButton: "Historical",
+                      tabIcon: History,
+                      tabContent: (
+                        <GridContainer
+                          id="profile__GridContainer_temperature"
+                          justify="center"
+                        >
+                          <GridItem xs={12} sm={12} md={12}>
+                            <div id="profile__GridContainer_filter">
+                              <select value={this.state.value} onChange={this.historyChange}>                              
+                                <option value="10">Last 10 entries</option>
+                                <option value="25">Last 25 entries</option>
+                                <option value="50">Last 50 entries</option>
+                              </select>
+                            </div>
+                          </GridItem>
+                          <GridItem xs={12} sm={12} md={12}>
+                            <LineChart
+                              width={600}
+                              height={300}
+                              data={this.state.historicalData}
+                              margin={{
+                                top: 5,
+                                right: 30,
+                                left: 20,
+                                bottom: 5
+                              }}
+                            >
+                              <XAxis dataKey="formattedDate" />
+                              <YAxis />
+                              <CartesianGrid strokeDasharray="3 3" />
+                              <Tooltip content={<CustomTooltip />} />
+                              <Legend />
+                              <Line
+                                type="monotone"
+                                dataKey="temperature"
+                                stroke="#DC143C"
+                                activeDot={{ r: 8 }}
                               />
-                            </GridItem>
-                            <GridItem xs={12} sm={6}>
-                              <LiquidGauge
-                              class="testing"
-                                value={this.state.humidity}
-                                percent="%"
-                                textSize="1"
+                              <Line
+                                type="monotone"
+                                dataKey="humidity"
+                                stroke="#8884d8"
+                                activeDot={{ r: 8 }}
                               />
-                            </GridItem>
-                          </GridContainer>
-                        )
-                      },
-                      {
-                        tabButton: "Historical",
-                        tabIcon: History,
-                        tabContent: (
-                          <GridContainer
-                            id="profile__GridContainer_temperature"
-                            justify="center"
-                          >
-                            <GridItem xs={12} sm={12} md={12}>
-                              <div id="profile__GridContainer_filter">
-                                <select value={this.state.value} onChange={this.historyChange}>                              
-                                  <option value="TEN_LATEST">Last 10 entries</option>
-                                  <option value="25_LATEST">Last 25 entries</option>
-                                  <option value="50_LATEST">Last 50 entries</option>
-                                </select>
-                              </div>
-                            </GridItem>
-                            <GridItem xs={12} sm={12} md={12}>
-                              <LineChart
-                                width={600}
-                                height={300}
-                                data={this.state.data}
-                                margin={{
-                                  top: 5,
-                                  right: 30,
-                                  left: 20,
-                                  bottom: 5
-                                }}
-                              >
-                                <XAxis dataKey="formattedDate" />
-                                <YAxis />
-                                <CartesianGrid strokeDasharray="3 3" />
-                                <Tooltip content={<CustomTooltip />} />
-                                <Legend />
-                                <Line
-                                  type="monotone"
-                                  dataKey="temperature"
-                                  stroke="#DC143C"
-                                  activeDot={{ r: 8 }}
-                                />
-                                <Line
-                                  type="monotone"
-                                  dataKey="humidity"
-                                  stroke="#8884d8"
-                                  activeDot={{ r: 8 }}
-                                />
-                              </LineChart>
-                            </GridItem>
-                          </GridContainer>
-                        )
-                      },
-                      {
-                        tabButton: "Averages",
-                        tabIcon: Timeline,
-                        tabContent: (
-                          <GridContainer
-                            id="profile__GridContainer_temperature"
-                            justify="center"
-                          >
-                            <GridItem xs={12} sm={12} md={12}>
-                              <div id="profile__GridContainer_filter">
-                                {/* <select value={this.state.value} onChange={this.averageChange}>                              
-                                  <option value="TEN_LATEST">Last 10 entries</option>
-                                  <option value="25_LATEST">Last 25 entries</option>
-                                  <option value="50_LATEST">Last 50 entries</option>
-                                </select> */}
-                              </div>
-                            </GridItem>
-                            <GridItem xs={12} sm={12} md={12}>
-                              <LineChart
-                                width={600}
-                                height={300}
-                                data={this.state.data}
-                                margin={{
-                                  top: 5,
-                                  right: 30,
-                                  left: 20,
-                                  bottom: 5
-                                }}
-                              >
-                                <XAxis dataKey="formattedDate" />
-                                <YAxis />
-                                <CartesianGrid strokeDasharray="3 3" />
-                                <Tooltip content={<CustomTooltip />} />
-                                <Legend />
-                                <Line
-                                  type="monotone"
-                                  dataKey="temperature"
-                                  stroke="#DC143C"
-                                  activeDot={{ r: 8 }}
-                                />
-                                <Line
-                                  type="monotone"
-                                  dataKey="humidity"
-                                  stroke="#8884d8"
-                                  activeDot={{ r: 8 }}
-                                />
-                              </LineChart>
-                            </GridItem>
-                          </GridContainer>
-                        )
-                      }
-                    ]}
-                  />
+                            </LineChart>
+                          </GridItem>
+                        </GridContainer>
+                      )
+                    },
+                    {
+                      tabButton: "Highs vs Lows",
+                      tabIcon: Timeline,
+                      tabContent: (
+                        <GridContainer
+                          id="profile__GridContainer_temperature"
+                          justify="center"
+                        >
+                          <GridItem xs={12} sm={12} md={12}>
+                            <div id="profile__GridContainer_filter">
+                              <select value={this.state.value} onChange={this.tempLimitChange}>                              
+                                <option value="7">Last Week</option>
+                                <option value="30">Last Month</option>
+                              </select>
+                            </div>
+                          </GridItem>
+                          <GridItem xs={12} sm={12} md={12}>
+                            <LineChart
+                              width={600}
+                              height={300}
+                              data={this.state.highsAndLowsData}
+                              margin={{
+                                top: 5,
+                                right: 30,
+                                left: 20,
+                                bottom: 5
+                              }}
+                            >
+                              <XAxis dataKey="formattedDate" />
+                              <YAxis />
+                              <CartesianGrid strokeDasharray="3 3" />
+                              <Tooltip content={<CustomTooltip />} />
+                              <Legend />
+                              <Line
+                                type="monotone"
+                                dataKey="low"
+                                stroke="#DC143C"
+                                activeDot={{ r: 8 }}
+                              />
+                              <Line
+                                type="monotone"
+                                dataKey="high"
+                                stroke="#8884d8"
+                                activeDot={{ r: 8 }}
+                              />
+                            </LineChart>
+                          </GridItem>
+                        </GridContainer>
+                      )
+                    },
+                    {
+                      tabButton: "Averages",
+                      tabIcon: Timeline,
+                      tabContent: (
+                        <GridContainer
+                          id="profile__GridContainer_temperature"
+                          justify="center"
+                        >
+                          <GridItem xs={12} sm={12} md={12}>
+                            
+                            <LineChart
+                              width={600}
+                              height={300}
+                              data={this.state.highsAndLowsData}
+                              margin={{
+                                top: 5,
+                                right: 30,
+                                left: 20,
+                                bottom: 5
+                              }}
+                            >
+                              <XAxis dataKey="formattedDate" />
+                              <YAxis />
+                              <CartesianGrid strokeDasharray="3 3" />
+                              <Tooltip content={<CustomTooltip />} />     
+                              <Legend/>                         
+                              <Line
+                                type="monotone"
+                                dataKey="low"
+                                stroke="#DC143C"
+                                activeDot={{ r: 8 }}
+                                
+                              />
+                              <Line
+                                type="monotone"
+                                dataKey="high"
+                                stroke="#8884d8"
+                                activeDot={{ r: 8 }}
+                                
+                              />
+                            </LineChart>
+                          </GridItem>
+                        </GridContainer>
+                      )
+                    }
+                  ]}
+                />
+                }
+               
                 </GridItem>
               </GridContainer>
             </div>

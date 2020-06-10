@@ -11,7 +11,6 @@ import ProfilePage from "views/ProfilePage/ProfilePage.jsx";
 import LoginPage from "views/LoginPage/LoginPage.jsx";
 import RegisterPage from "views/RegisterPage/RegisterPage.jsx";
 
-
 var hist = createBrowserHistory();
 
 class App extends React.Component {
