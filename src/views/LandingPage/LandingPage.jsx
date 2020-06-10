@@ -4,8 +4,6 @@ import classNames from "classnames";
 // @material-ui/core components
 import withStyles from "@material-ui/core/styles/withStyles";
 
-// @material-ui/icons
-
 // core components
 import Header from "components/Header/Header.jsx";
 import Footer from "components/Footer/Footer.jsx";
@@ -42,12 +40,11 @@ class LandingPage extends React.Component {
           rightLinks={<HeaderLinks />}
           fixed
           changeColorOnScroll={{
-            height: 400,
-            color: "white"
+            height: 200,
+            color: "rose"
           }}
           {...rest}
         />
-        {/* <Parallax filter image={require("assets/img/landing-bg.jpg")}> */}
         <Parallax filter>
           <div className={classes.container}>
             <GridContainer>
@@ -62,6 +59,7 @@ class LandingPage extends React.Component {
                 <img
                   id="banner__img_logo"
                   src={logo}
+                  alt="BerryFace logo"
                 />
               </GridItem>
             </GridContainer>

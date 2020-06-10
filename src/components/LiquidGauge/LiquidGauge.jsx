@@ -1,6 +1,5 @@
 
 import { color } from 'd3-color';
-import { interpolateRgb } from 'd3-interpolate';
 import React, { Component } from 'react';
 import LiquidFillGauge from 'react-liquid-gauge';
 

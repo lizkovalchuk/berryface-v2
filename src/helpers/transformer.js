@@ -2,7 +2,7 @@ import dayjs from 'dayjs';
 
 function getCurrent(data) {
   const keys = Object.keys(data);
-  if (keys.length == 0) {
+  if (keys.length === 0) {
     return {
       temp: 0,
       humidity: 0

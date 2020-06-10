@@ -17,9 +17,10 @@ import classNames from "classnames";
 import withStyles from "@material-ui/core/styles/withStyles";
 // @material-ui/icons
 import Sun from "@material-ui/icons/Brightness6";
-import Bubble from "@material-ui/icons/BubbleChart";
 import History from "@material-ui/icons/History"
 import Timeline from "@material-ui/icons/Timeline"
+import Assessment from "@material-ui/icons/Assessment"
+
 // core components
 import Header from "components/Header/Header.jsx";
 import Footer from "components/Footer/Footer.jsx";
@@ -38,6 +39,7 @@ import "assets/scss/custom-style/profile-page.scss";
 // api
 import { getData } from "../../api/api";
 import transformer from "../../helpers/transformer";
+
 // custom components
 import CustomTooltip  from '../../components/CustomTooltip/tooltip'
 
@@ -122,7 +124,7 @@ class ProfilePage extends React.Component {
           fixed
           changeColorOnScroll={{
             height: 200,
-            color: "white"
+            color: "rose"
           }}
           {...rest}
         />
@@ -239,7 +241,7 @@ class ProfilePage extends React.Component {
                     },
                     {
                       tabButton: "Highs vs Lows",
-                      tabIcon: Timeline,
+                      tabIcon: Assessment,
                       tabContent: (
                         <GridContainer
                           id="profile__GridContainer_temperature"
