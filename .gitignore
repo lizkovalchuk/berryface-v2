@@ -1,9 +1,5 @@
 # See https://help.github.com/ignore-files/ for more about ignoring files.
 
-#images
-/public
-/src/assets/img
-
 # dependencies
 /node_modules
 
@@ -12,6 +8,7 @@
 
 # production
 /build
+/build.zip
 
 # misc
 .DS_Store
